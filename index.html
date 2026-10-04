@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Armory</title>
+<meta name="theme-color" content="#1D2429">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600&family=Saira+Stencil+One&display=swap">
+<style>
+:root{
+  --primer:#D6D9D3; --surface:#EEF0EB; --raised:#F8F9F5;
+  --ink:#1D2429; --muted:#566068; --line:#B4B9B2;
+  --tape:#1F55A8; --tape-ink:#FFFFFF; --tape-soft:#C9D8F0;
+  --mask:#E3BC3A; --mask-ink:#3A2F05; --late:#B3321F; --good:#2C6E49; --bed:#C5C9C2;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --primer:#1F262B; --surface:#2A3238; --raised:#333C43;
+    --ink:#E7E9E4; --muted:#A3ACB2; --line:#4A555D;
+    --tape:#7DAAEE; --tape-ink:#0E1B2E; --tape-soft:#2C3F5C;
+    --mask:#E3BC3A; --mask-ink:#2A2203; --late:#F08A78; --good:#7FCB9F; --bed:#252C31;
+  }
+}
+:root[data-theme="dark"]{
+  --primer:#1F262B; --surface:#2A3238; --raised:#333C43;
+  --ink:#E7E9E4; --muted:#A3ACB2; --line:#4A555D;
+  --tape:#7DAAEE; --tape-ink:#0E1B2E; --tape-soft:#2C3F5C;
+  --mask:#E3BC3A; --mask-ink:#2A2203; --late:#F08A78; --good:#7FCB9F; --bed:#252C31;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100%;background:var(--primer);color:var(--ink);
+  font-family:"Saira","Avenir Next","Segoe UI",system-ui,sans-serif;
+  font-size:1rem;line-height:1.5;-webkit-text-size-adjust:100%;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--tape);outline-offset:2px}
+[hidden]{display:none !important}
+.stencil{font-family:"Saira Stencil One","Saira","Impact",sans-serif;font-weight:400}
+.site-head{max-width:60rem;margin:0 auto;padding:1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.site-head .mark{font-size:1.5rem;margin:0;line-height:1}
+.site-head .sub{margin:.15rem 0 0;color:var(--muted);font-size:.85rem}
+.modebtn{border:1.5px solid var(--line);background:transparent;border-radius:4px;padding:.4rem .7rem;min-height:40px;cursor:pointer;color:var(--muted);font-weight:500;white-space:nowrap}
+#customer .orlink{display:grid;gap:.6rem;align-items:end;margin-top:1rem}
+@media (min-width:36rem){#customer .orlink{grid-template-columns:1fr auto}}
+#customer .sites{margin:.6rem 0 0;font-size:.95rem;color:var(--muted)}
+#customer a{color:var(--tape)}
+#customer a.btn{color:var(--ink)}
+#customer a.btn.primary{color:var(--tape-ink)}
+#customer .facts dd{overflow-wrap:anywhere}
+#owner a.btn{text-decoration:none;display:inline-flex;align-items:center;color:var(--ink)}
+
+.site-head a.modebtn{text-decoration:none;display:inline-flex;align-items:center}
+.site-head a.modebtn.strong{background:var(--tape);border-color:var(--tape);color:var(--tape-ink);font-weight:600}
+#customer .wrap{max-width:60rem;margin:0 auto;padding:0 1rem}
+#customer .stencil{font-family:"Saira Stencil One","Saira","Impact",sans-serif;font-weight:400}
+#customer .hero{padding:1.5rem 0 1rem}
+#customer .hero h1{font-size:clamp(2.3rem,9vw,4.4rem);line-height:.98;margin:0;max-width:13ch}
+#customer .hero p{font-size:1.1rem;max-width:34rem;margin:1rem 0 1.25rem;color:var(--muted)}
+#customer .drop{
+  display:block;position:relative;cursor:pointer;
+  background:
+    linear-gradient(var(--line) 1px,transparent 1px) 0 0/100% 28px,
+    linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/28px 100%,
+    var(--bed);
+  border:2px solid var(--ink);padding:2.25rem 1.25rem;text-align:left;
+}
+#customer .drop.over{outline:4px solid var(--tape);outline-offset:-6px}
+#customer .drop input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+#customer .drop .plate{display:inline-block;background:var(--primer);padding:.75rem 1rem;border-left:6px solid var(--tape);max-width:100%}
+#customer .drop strong{display:block;font-size:1.2rem;font-weight:600}
+#customer .drop span{color:var(--muted);font-size:.95rem}
+#customer .private{margin:.6rem 0 0;font-size:.9rem;color:var(--muted)}
+#customer section{padding:1.75rem 0}
+#customer h2{font-family:"Saira Stencil One","Saira",sans-serif;font-weight:400;font-size:1.6rem;margin:0 0 .75rem;line-height:1.1}
+#customer .lede{margin:0 0 1rem;color:var(--muted);max-width:38rem}
+#customer .work{display:grid;gap:1rem}
+@media (min-width:48rem){#customer .work{grid-template-columns:1.1fr 1fr;align-items:start}}
+#customer .viewer{background:var(--bed);border:2px solid var(--ink);position:relative;aspect-ratio:4/3;overflow:hidden;touch-action:pan-y}
+#customer .viewer canvas{display:block;width:100%;height:100%}
+#customer .viewer .hint{position:absolute;left:.6rem;bottom:.45rem;font-size:.8rem;color:var(--muted);margin:0}
+#customer .viewer .nopreview{position:absolute;inset:0;display:grid;place-items:center;padding:1rem;text-align:center;color:var(--muted)}
+#customer .facts{display:grid;grid-template-columns:1fr 1fr;gap:.25rem 1rem;margin:.75rem 0 0;font-size:.95rem}
+#customer .facts dt{color:var(--muted)}
+#customer .facts dd{margin:0;font-weight:500;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#customer .flag{margin:.75rem 0 0;padding:.5rem .7rem;background:var(--mask);color:var(--mask-ink);font-size:.95rem}
+#customer .flag.bad{background:transparent;color:var(--late);border:1.5px solid var(--late)}
+#customer .panel{background:var(--surface);padding:1rem}
+#customer .fields{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+#customer .field{display:grid;gap:.2rem;font-size:.85rem;color:var(--muted);min-width:0}
+#customer .field.wide{grid-column:1/-1}
+#customer .field input,#customer .field select,#customer .field textarea{
+  background:var(--raised);border:1.5px solid var(--line);border-radius:4px;
+  padding:.55rem .6rem;min-height:44px;width:100%;font-size:1rem;color:var(--ink);
+}
+#customer .field textarea{min-height:5rem;resize:vertical}
+#customer .swatches{display:flex;flex-wrap:wrap;gap:.5rem}
+#customer .swatches button{
+  width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--c);cursor:pointer;padding:0;
+}
+#customer .swatches button[aria-pressed="true"]{outline:3px solid var(--tape);outline-offset:2px;border-color:var(--ink)}
+#customer .quote{background:var(--ink);color:var(--primer);padding:1rem;margin-top:.75rem}
+#customer .quote .price{font-size:2.4rem;line-height:1;font-variant-numeric:tabular-nums}
+#customer .quote p{margin:.4rem 0 0;font-size:.9rem;opacity:.85}
+#customer .quote dl{display:grid;grid-template-columns:1fr auto;gap:.15rem 1rem;margin:.75rem 0 0;font-size:.9rem}
+#customer .quote dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+#customer .steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:.75rem}
+@media (min-width:48rem){#customer .steps{grid-template-columns:repeat(4,1fr)}}
+#customer .steps li{counter-increment:s;background:var(--surface);padding:.9rem;border-top:6px solid var(--tape)}
+#customer .steps li::before{content:counter(s);font-family:"Saira Stencil One","Saira",sans-serif;font-size:1.8rem;line-height:1;display:block;margin-bottom:.3rem}
+#customer .steps b{display:block;font-weight:600}
+#customer .steps span{color:var(--muted);font-size:.95rem}
+#customer .btn{
+  display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
+  border:1.5px solid var(--ink);background:transparent;border-radius:4px;color:var(--ink);
+  padding:.65rem 1rem;font-weight:600;min-height:48px;cursor:pointer;
+}
+#customer .btn.primary{background:var(--tape);border-color:var(--tape);color:var(--tape-ink)}
+#customer .row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+#customer .status{margin:.6rem 0 0;font-size:.95rem;min-height:1.4rem}
+#customer .status.bad{color:var(--late)}
+#customer .send-steps{margin:1rem 0 0;padding-left:1.2rem}
+#customer .send-steps li{margin-bottom:.75rem}
+#customer #orderText{width:100%;min-height:13rem;background:var(--raised);border:1.5px solid var(--line);border-radius:4px;padding:.6rem;font-size:.95rem;margin-top:.5rem}
+#customer .rules{columns:2 18rem;gap:2rem;margin:0;padding-left:1.1rem;color:var(--muted)}
+#customer .rules li{margin-bottom:.4rem;break-inside:avoid}
+#customer footer{padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.9rem;border-top:1.5px solid var(--line);margin-top:1rem}
+#customer .wrap{padding-bottom:6.5rem}
+#customer .hero h1{max-width:15ch}
+#customer .hero h2.big{font-size:clamp(2rem,8vw,3.4rem);line-height:1;margin:0;max-width:14ch}
+#customer .actions{display:grid;gap:.6rem;grid-template-columns:1fr 1fr;max-width:30rem}
+#customer .btn.big{min-height:60px;font-size:1.05rem}
+#customer .proof{background:var(--surface);padding:1rem;border-left:6px solid var(--mask)}
+#customer .proof .score{font-size:2.2rem;line-height:1}
+#customer .proof p{margin:.3rem 0 0}
+#customer .cards{list-style:none;margin:0;padding:0;display:grid;gap:.75rem}
+@media (min-width:44rem){#customer .cards{grid-template-columns:1fr 1fr}}
+#customer .card{background:var(--surface);padding:1rem;border-left:6px solid var(--tape);display:grid;gap:.5rem}
+#customer .card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+#customer .card h3{margin:0;font-size:1.1rem;font-weight:600;line-height:1.25}
+#customer .card .cost{font-size:1.9rem;line-height:1}
+#customer .card .kind{margin:0;color:var(--muted);font-size:.95rem}
+#customer .btn.small{min-height:40px;padding:.35rem .7rem;font-size:.9rem}
+#customer .btn.on{background:var(--mask);border-color:var(--mask);color:var(--mask-ink)}
+#customer .btn.warn{border-color:var(--late);color:var(--late)}
+#customer .seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:4px;overflow:hidden;margin-bottom:1rem}
+#customer .seg button{border:0;background:transparent;padding:.4rem .8rem;min-height:40px;cursor:pointer;font-weight:500}
+#customer .seg button[aria-pressed="true"]{background:var(--ink);color:var(--primer)}
+#customer .empty{background:var(--surface);padding:1.25rem 1rem;border:1.5px dashed var(--line)}
+#customer .empty p{margin:0 0 .75rem}
+#customer .req pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:.9rem;margin:0;color:var(--muted);max-height:9rem;overflow:auto;border-left:2px solid var(--line);padding-left:.6rem}
+#customer .faq details{background:var(--surface);padding:.8rem 1rem;margin-bottom:.5rem}
+#customer .faq summary{cursor:pointer;font-weight:600;min-height:28px}
+#customer .faq p{margin:.5rem 0 0;color:var(--muted)}
+#customer .stack{display:grid;gap:.5rem;max-width:26rem}
+#customer .stack .btn{justify-content:flex-start}
+nav.ctabs{position:fixed;left:0;right:0;bottom:0;background:var(--ink);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav.ctabs div{max-width:60rem;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+nav.ctabs button{border:0;background:transparent;color:var(--primer);opacity:.6;padding:.85rem .1rem;min-height:56px;font-weight:600;font-size:.88rem;cursor:pointer;border-top:4px solid transparent}
+nav.ctabs button[aria-selected="true"]{opacity:1;border-top-color:var(--mask)}
+nav.ctabs :focus-visible{outline-color:var(--mask);outline-offset:-4px}
+
+.site-head .tag{display:inline-block;margin-left:.5rem;padding:.05rem .4rem;background:var(--mask);color:var(--mask-ink);font-family:"Saira","Avenir Next","Segoe UI",system-ui,sans-serif;font-size:.75rem;font-weight:600;vertical-align:middle;border-radius:2px}
+.bug textarea{background:var(--raised);border:1.5px solid var(--line);border-radius:4px;padding:.55rem .6rem;width:100%;min-height:5rem;font-size:1rem;color:var(--ink);resize:vertical}
+.bug .bugmsg{margin:.6rem 0 0;font-size:.95rem;color:var(--muted);min-height:1.4rem}
+</style>
+</head>
+<body>
+<header class="site-head">
+  <div>
+    <p class="mark stencil">The Armory<span class="tag">Alpha 0.2</span></p>
+    <p class="sub">Helmets and custom 3D prints</p>
+  </div>
+  <a class="modebtn strong" href="https://www.etsy.com/messages/new?with_id=961668429&amp;referring_id=55896558&amp;referring_type=shop&amp;recipient_id=961668429" target="_blank" rel="noopener noreferrer">Message shop</a>
+</header>
+
+<div id="customer">
+<div class="wrap">
+
+  <div class="view" id="view-home">
+    <div class="hero">
+      <h1 class="stencil">Helmets and custom prints from one small workshop.</h1>
+      <p>3D printed in Vestavia Hills, Alabama. Buy a wearable helmet, or send your own model to be printed and shipped.</p>
+      <div class="actions">
+        <button type="button" class="btn primary big" data-go="helmets">Shop helmets</button>
+        <button type="button" class="btn big" data-go="print">Print my file</button>
+      </div>
+    </div>
+    <section>
+      <div class="proof">
+        <div class="score stencil">5.0 out of 5</div>
+        <p>From 3 reviews on Etsy. Buyers mention quick shipping, a true-to-size fit and good quality for the price.</p>
+        <div class="row" style="margin-top:.75rem">
+          <a class="btn small" href="https://www.etsy.com/shop/Theworkshp#reviews" target="_blank" rel="noopener noreferrer">Read the reviews</a>
+          <a class="btn small" href="https://youtube.com/@gameandprints" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+        </div>
+      </div>
+    </section>
+    <section>
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><b>Send a link or a file</b><span>Paste a model link or choose your file, pick your options and send a request.</span></li>
+      <li><b>Get a firm price</b><span>The shop checks the file and replies with the final price and shipping.</span></li>
+      <li><b>It gets printed</b><span>Once you pay through Etsy, your part goes on the printer.</span></li>
+      <li><b>It ships to you</b><span>Packed with padding and sent with tracking.</span></li>
+    </ol>
+  </section>
+
+  
+  </div>
+
+  <div class="view" id="view-helmets" hidden>
+    <section>
+      <h2>Helmets</h2>
+      <div class="seg" role="group" aria-label="Which helmets to show">
+        <button type="button" data-hfilter="all" aria-pressed="true">All</button>
+        <button type="button" data-hfilter="saved" aria-pressed="false">Saved</button>
+      </div>
+      <ul class="cards" id="helmetCards"></ul>
+      <div class="empty" id="helmetEmpty" hidden><p>No saved helmets yet. Tap Save on a helmet to keep it here.</p></div>
+      <p class="lede" style="margin-top:1rem">Checkout, photos and delivery dates are on Etsy.</p>
+    </section>
+  </div>
+
+  <div class="view" id="view-print" hidden>
+    <div class="hero">
+    <h2 class="stencil big">A 3D printer you don't have to own.</h2>
+    <p>Send your file. It gets printed in a workshop in Vestavia Hills, Alabama and shipped to your door.</p>
+    <label class="drop" id="drop">
+      <input type="file" id="file" accept=".stl,.3mf,.obj,.step,.stp">
+      <span class="plate">
+        <strong>Choose your file for an instant estimate</strong>
+        <span>STL files get a price right away. 3MF, OBJ and STEP get a quote by message.</span>
+      </span>
+    </label>
+    <div class="orlink">
+      <label class="field">Or paste a link to the model, so you don't have to download it
+        <input id="modelLink" type="url" placeholder="https://www.printables.com/model/..." inputmode="url">
+      </label>
+      <button type="button" class="btn" id="useLink">Use this link</button>
+    </div>
+    <p class="sites">Find a model on
+      <a href="https://www.printables.com" target="_blank" rel="noopener noreferrer">Printables</a>,
+      <a href="https://www.thingiverse.com" target="_blank" rel="noopener noreferrer">Thingiverse</a>,
+      <a href="https://makerworld.com" target="_blank" rel="noopener noreferrer">MakerWorld</a>,
+      <a href="https://thangs.com" target="_blank" rel="noopener noreferrer">Thangs</a>,
+      <a href="https://cults3d.com" target="_blank" rel="noopener noreferrer">Cults</a> or
+      <a href="https://www.myminifactory.com" target="_blank" rel="noopener noreferrer">MyMiniFactory</a>, then copy the page address and paste it here.</p>
+    <p class="private">A file you choose is measured on your device and is never uploaded. A pasted link gets a quote by message.</p>
+    <p class="status bad" id="fileStatus" role="status"></p>
+  </div>
+
+  
+    <section id="quoteSection" hidden>
+    <h2>Your print</h2>
+    <div class="work">
+      <div>
+        <div class="viewer" id="viewer">
+          <p class="hint" id="viewHint">Drag sideways to turn it</p>
+          <div class="nopreview" id="noPreview" hidden></div>
+        </div>
+        <dl class="facts" id="facts"></dl>
+        <p class="flag" id="bedFlag" hidden></p>
+      </div>
+      <div>
+        <div class="panel">
+          <div class="fields">
+            <label class="field" id="unitWrap">File is measured in
+              <select id="unit"><option value="1">Millimetres</option><option value="25.4">Inches</option></select>
+            </label>
+            <label class="field">Quantity<input type="number" id="qty" min="1" max="50" value="1" inputmode="numeric"></label>
+            <label class="field">Material<select id="material"></select></label>
+            <label class="field">Detail<select id="quality"></select></label>
+            <label class="field">Strength<select id="infill"></select></label>
+            <label class="field">Finish<select id="finish"></select></label>
+            <div class="field wide">
+              <span id="colorLabel">Colour</span>
+              <div class="swatches" id="swatches" role="group" aria-labelledby="colorLabel"></div>
+            </div>
+          </div>
+        </div>
+        <div class="quote" aria-live="polite">
+          <div class="price stencil" id="price"></div>
+          <p id="priceNote"></p>
+          <dl id="breakdown"></dl>
+        </div>
+        <div class="row" style="margin-top:.75rem">
+          <button type="button" class="btn primary" id="goSend">Request this print</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+    <section id="send">
+    <h2>Request a print</h2>
+    <p class="lede">The shop needs a link it can get your model from. Use the model's page on a site like Printables or Thingiverse, or your own Google Drive or Dropbox link set so anyone with it can view.</p>
+    <div class="panel">
+      <div class="fields">
+        <label class="field">Your name<input id="cName" autocomplete="name"></label>
+        <label class="field">Ship-to ZIP code<input id="cZip" autocomplete="postal-code" inputmode="numeric"></label>
+        <label class="field wide">Link to the model or your file<input id="cLink" type="url" placeholder="https://" inputmode="url"></label>
+        <label class="field wide">Anything the shop should know<textarea id="cNotes" placeholder="What it's for, a date you need it by, which side should look best"></textarea></label>
+      </div>
+      <div class="row" style="margin-top:.85rem">
+        <button type="button" class="btn primary" id="buildOrder">Write my request</button>
+      </div>
+      <p class="status" id="sendStatus" role="status"></p>
+      <div id="orderOut" hidden>
+        <ol class="send-steps">
+          <li>Copy your request.
+            <textarea id="orderText" readonly aria-label="Your print request"></textarea>
+            <div class="row" style="margin-top:.5rem"><button type="button" class="btn" id="copyOrder">Copy request</button></div>
+          </li>
+          <li>Paste it into a message to the shop.
+            <div class="row" style="margin-top:.5rem">
+              <a class="btn primary" id="etsyMsg" target="_blank" rel="noopener noreferrer"
+                 href="https://www.etsy.com/messages/new?with_id=961668429&referring_id=55896558&referring_type=shop&recipient_id=961668429">Message the shop on Etsy</a>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  
+    <section>
+    <h2>Before you send</h2>
+    <ul class="rules">
+      <li>The price on this page is an estimate. The shop confirms the final price after looking at your file.</li>
+      <li>Shipping is added once the shop knows the size and weight of the box.</li>
+      <li>Only send models you made or have permission to print.</li>
+      <li>Some models on sharing sites are licensed for personal use only. The shop may ask about the licence or turn the request down.</li>
+      <li>The shop does not print weapon parts and can turn down any request.</li>
+      <li>Printed parts show fine layer lines. Choose the sanded finish for a smoother surface.</li>
+    </ul>
+  </section>
+
+  
+  </div>
+
+  <div class="view" id="view-requests" hidden>
+    <section>
+      <h2>My requests</h2>
+      <p class="lede">Requests you have written on this device. The shop replies on Etsy with the price and updates.</p>
+      <ul class="cards" id="reqCards"></ul>
+      <div class="empty" id="reqEmpty" hidden>
+        <p>No requests yet. Send a model to be printed and it shows up here.</p>
+        <button type="button" class="btn primary" data-go="print">Print my file</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="view" id="view-help" hidden>
+    <section class="faq">
+      <h2>Questions</h2>
+      <details><summary>How do I pay?</summary><p>Through Etsy. Helmets are bought from their Etsy listing. For a custom print, the shop sends you a custom order on Etsy after confirming the price.</p></details>
+      <details><summary>How long does a print take?</summary><p>It depends on the size and how busy the printer is. The shop tells you the timing when it confirms your price.</p></details>
+      <details><summary>What files can I send?</summary><p>STL files get an instant estimate. 3MF, OBJ and STEP files, or a link to a model page, get a quote by message.</p></details>
+      <details><summary>Can you print a model I found online?</summary><p>Usually. Paste the model's link in the Print tab. Some models are licensed for personal use only, so the shop may ask about the licence.</p></details>
+      <details><summary>What about returns?</summary><p>Each Etsy listing shows whether that item can be returned or exchanged.</p></details>
+    </section>
+    <section>
+      <h2>Get in touch</h2>
+      <div class="stack">
+        <a class="btn primary" href="https://www.etsy.com/messages/new?with_id=961668429&amp;referring_id=55896558&amp;referring_type=shop&amp;recipient_id=961668429" target="_blank" rel="noopener noreferrer">Message the shop on Etsy</a>
+        <a class="btn" href="https://www.etsy.com/shop/Theworkshp" target="_blank" rel="noopener noreferrer">Open the Etsy shop</a>
+        <a class="btn" href="https://youtube.com/@gameandprints" target="_blank" rel="noopener noreferrer">YouTube channel</a>
+        <button type="button" class="btn" id="shareApp">Share this app</button>
+      </div>
+    </section>
+    <section class="bug">
+      <h2>Report a problem</h2>
+      <p class="lede">This app is in early testing. If something breaks or looks wrong, describe it here and copy the report.</p>
+      <label class="field">What happened<textarea id="bugText" placeholder="What you tapped, and what you expected to happen"></textarea></label>
+      <div class="row" style="margin-top:.6rem"><button type="button" class="btn" id="bugCopy">Copy report</button></div>
+      <p class="bugmsg" id="bugStatus" role="status"></p>
+    </section>
+    <section>
+      <h2>Shop owner</h2>
+      <div class="stack">
+        <a class="btn" href="developer.html">Open the developer app (passcode needed)</a>
+      </div>
+    </section>
+    <footer>The Armory by Theworkshp, Vestavia Hills, Alabama.</footer>
+  </div>
+
+</div>
+</div>
+
+<nav class="ctabs" aria-label="Sections"><div role="tablist">
+  <button type="button" role="tab" data-view="home" aria-selected="true">Home</button>
+  <button type="button" role="tab" data-view="helmets" aria-selected="false">Helmets</button>
+  <button type="button" role="tab" data-view="print" aria-selected="false">Print</button>
+  <button type="button" role="tab" data-view="requests" aria-selected="false">Requests</button>
+  <button type="button" role="tab" data-view="help" aria-selected="false">Help</button>
+</div></nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ====== Shop settings: change these numbers to match the real printer and prices ====== */
+var SHOP={
+  bed:[320,320,385],            // printer build size in mm
+  setupFee:5,                   // per order, $
+  minOrder:15,                  // smallest order, $
+  machinePerHour:0.5,           // $
+  wallMm:1.2,                   // wall thickness used for the estimate
+  waste:1.08,                   // supports and purge
+  spread:0.12,                  // estimate shown as plus or minus this much
+  materials:[
+    {name:"PLA",note:"best for most prints",density:1.24,perGram:0.04},
+    {name:"PETG",note:"tougher, handles heat",density:1.27,perGram:0.05}
+  ],
+  qualities:[
+    {name:"Standard",note:"0.2 mm layers",gramsPerHour:15},
+    {name:"Draft",note:"0.28 mm layers, faster",gramsPerHour:22},
+    {name:"Fine",note:"0.12 mm layers, slower",gramsPerHour:9}
+  ],
+  infills:[
+    {name:"Light",note:"15% filled",pct:0.15},
+    {name:"Medium",note:"25% filled",pct:0.25},
+    {name:"Strong",note:"40% filled",pct:0.40}
+  ],
+  finishes:[
+    {name:"Raw print",note:"straight off the printer",mult:1,min:0},
+    {name:"Sanded",note:"smoothed by hand",mult:1.25,min:8}
+  ],
+  colors:[
+    {name:"Black",hex:"#22262A"},{name:"White",hex:"#F2F2EE"},{name:"Grey",hex:"#8A9096"},
+    {name:"Silver",hex:"#BFC5CA"},{name:"Red",hex:"#B3261E"},{name:"Blue",hex:"#1F55A8"}
+  ]
+};
+var MAX_BYTES=80*1024*1024;
+
+function $(id){return document.getElementById(id)}
+function el(tag,attrs){
+  var n=document.createElement(tag),k;
+  if(attrs){for(k in attrs){if(k==="text")n.textContent=attrs[k];else n.setAttribute(k,attrs[k])}}
+  return n;
+}
+function money(n){return "$"+Math.round(n)}
+function fmt(n,d){return n.toFixed(d===undefined?1:d)}
+
+var model=null;      // {name,size,stl:boolean,stats:{dims,volume,area,tris}}
+var colorIdx=0;
+
+/* ---------- option menus ---------- */
+function fill(sel,items){
+  items.forEach(function(it,i){sel.appendChild(el("option",{value:String(i),text:it.name+" ("+it.note+")"}))});
+}
+fill($("material"),SHOP.materials);fill($("quality"),SHOP.qualities);
+fill($("infill"),SHOP.infills);fill($("finish"),SHOP.finishes);
+SHOP.colors.forEach(function(c,i){
+  var b=el("button",{type:"button","aria-label":c.name,title:c.name,"aria-pressed":i===0?"true":"false"});
+  b.style.setProperty("--c",c.hex);
+  b.addEventListener("click",function(){
+    colorIdx=i;
+    $("swatches").querySelectorAll("button").forEach(function(x,j){x.setAttribute("aria-pressed",j===i?"true":"false")});
+    $("colorLabel").textContent="Colour: "+c.name;
+    setMeshColor();
+  });
+  $("swatches").appendChild(b);
+});
+$("colorLabel").textContent="Colour: "+SHOP.colors[0].name;
+["unit","qty","material","quality","infill","finish"].forEach(function(id){
+  $(id).addEventListener("input",function(){renderFacts();renderQuote()});
+});
+
+/* ---------- STL reading ---------- */
+function parseSTL(buf){
+  var pos=null;
+  if(buf.byteLength>=84){
+    var dv=new DataView(buf),n=dv.getUint32(80,true);
+    if(n>0&&84+n*50===buf.byteLength){
+      pos=new Float32Array(n*9);
+      for(var i=0,o=96,p=0;i<n;i++,o+=50){
+        for(var j=0;j<9;j++)pos[p++]=dv.getFloat32(o+j*4,true);
+      }
+    }
+  }
+  if(!pos){
+    var text=new TextDecoder().decode(buf);
+    var re=/vertex\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)/g,m,arr=[];
+    while((m=re.exec(text))){arr.push(+m[1],+m[2],+m[3])}
+    if(arr.length<9||arr.length%9!==0)return null;
+    pos=new Float32Array(arr);
+  }
+  var min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity],vol=0,area=0;
+  for(var k=0;k<pos.length;k+=9){
+    var ax=pos[k],ay=pos[k+1],az=pos[k+2],bx=pos[k+3],by=pos[k+4],bz=pos[k+5],cx=pos[k+6],cy=pos[k+7],cz=pos[k+8];
+    for(var v=0;v<9;v++){var val=pos[k+v],d=v%3;if(val<min[d])min[d]=val;if(val>max[d])max[d]=val}
+    var ux=bx-ax,uy=by-ay,uz=bz-az,wx=cx-ax,wy=cy-ay,wz=cz-az;
+    var nx=uy*wz-uz*wy,ny=uz*wx-ux*wz,nz=ux*wy-uy*wx;
+    area+=Math.sqrt(nx*nx+ny*ny+nz*nz)/2;
+    vol+=(ax*(by*cz-bz*cy)-ay*(bx*cz-bz*cx)+az*(bx*cy-by*cx))/6;
+  }
+  var dims=[max[0]-min[0],max[1]-min[1],max[2]-min[2]];
+  if(!dims.every(function(x){return isFinite(x)&&x>0}))return null;
+  return {positions:pos,stats:{dims:dims,volume:Math.abs(vol),area:area,tris:pos.length/9}};
+}
+
+/* ---------- file handling ---------- */
+function handleFile(f){
+  var status=$("fileStatus");status.textContent="";
+  if(!f)return;
+  if(f.size>MAX_BYTES){status.textContent="That file is over 80 MB, which is too big to check here. You can still send a request below and get a quote by message.";return}
+  var ext=(f.name.split(".").pop()||"").toLowerCase();
+  if(ext!=="stl"){
+    model={name:f.name,size:f.size,stl:false,stats:null};
+    showModel(null);return;
+  }
+  var r=new FileReader();
+  r.onerror=function(){status.textContent="The file could not be opened. Try choosing it again."};
+  r.onload=function(){
+    var parsed=null;
+    try{parsed=parseSTL(r.result)}catch(e){parsed=null}
+    if(!parsed){
+      model={name:f.name,size:f.size,stl:false,stats:null};
+      showModel(null);
+      status.textContent="This STL could not be measured, so there is no instant estimate. You can still send it for a quote by message.";
+      return;
+    }
+    model={name:f.name,size:f.size,stl:true,stats:parsed.stats};
+    showModel(parsed.positions);
+  };
+  r.readAsArrayBuffer(f);
+}
+var SITES=[["printables.com","Printables"],["thingiverse.com","Thingiverse"],["makerworld.com","MakerWorld"],["thangs.com","Thangs"],
+  ["cults3d.com","Cults"],["myminifactory.com","MyMiniFactory"],["drive.google.com","Google Drive"],["dropbox.com","Dropbox"]];
+function siteName(url){
+  var host="";try{host=new URL(url).hostname.toLowerCase()}catch(e){return null}
+  for(var i=0;i<SITES.length;i++){if(host===SITES[i][0]||host.slice(-SITES[i][0].length-1)==="."+SITES[i][0])return SITES[i][1]}
+  return host.replace(/^www\./,"");
+}
+function handleLink(){
+  var status=$("fileStatus"),url=$("modelLink").value.trim();status.textContent="";
+  if(url&&!/^https?:\/\//i.test(url))url="https://"+url;
+  var site=/^https?:\/\/\S+\.\S+/i.test(url)?siteName(url):null;
+  if(!site){status.textContent="That doesn't look like a web address. Copy the address of the model's page and paste it here.";$("modelLink").focus();return}
+  model={name:"Model on "+site,size:0,stl:false,stats:null,link:url,site:site};
+  $("cLink").value=url;
+  showModel(null);
+}
+$("useLink").addEventListener("click",handleLink);
+$("modelLink").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();handleLink()}});
+$("file").addEventListener("change",function(e){handleFile(e.target.files[0]);e.target.value=""});
+var drop=$("drop");
+["dragenter","dragover"].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.add("over")})});
+["dragleave","drop"].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.remove("over")})});
+drop.addEventListener("drop",function(e){if(e.dataTransfer&&e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0])});
+
+function showModel(positions){
+  $("quoteSection").hidden=false;
+  $("unitWrap").hidden=!model.stl;
+  showPreview(positions);
+  renderFacts();renderQuote();
+  $("orderOut").hidden=true;
+  $("quoteSection").scrollIntoView({block:"start"});
+}
+
+/* ---------- numbers ---------- */
+function scaled(){
+  var s=+$("unit").value,st=model.stats;
+  return {dims:st.dims.map(function(d){return d*s}),volume:st.volume*s*s*s,area:st.area*s*s};
+}
+function estimate(){
+  if(!model||!model.stl)return null;
+  var g=scaled();
+  var mat=SHOP.materials[+$("material").value],q=SHOP.qualities[+$("quality").value];
+  var inf=SHOP.infills[+$("infill").value],fin=SHOP.finishes[+$("finish").value];
+  var qty=Math.min(50,Math.max(1,parseInt($("qty").value,10)||1));
+  var volCm=g.volume/1000,areaCm=g.area/100;
+  var shell=Math.min(volCm,areaCm*SHOP.wallMm/10);
+  var solid=shell+(volCm-shell)*inf.pct;
+  var grams=solid*mat.density*SHOP.waste;
+  var hours=grams/q.gramsPerHour+0.25;
+  var each=grams*mat.perGram+hours*SHOP.machinePerHour;
+  each=Math.max(each*fin.mult,each+fin.min);
+  var total=Math.max(SHOP.minOrder,SHOP.setupFee+each*qty);
+  return {grams:grams,hours:hours,each:each,total:total,qty:qty,mat:mat,q:q,inf:inf,fin:fin,dims:g.dims};
+}
+function fitsBed(dims){
+  var a=dims.slice().sort(function(x,y){return x-y}),b=SHOP.bed.slice().sort(function(x,y){return x-y});
+  return a[0]<=b[0]&&a[1]<=b[1]&&a[2]<=b[2];
+}
+function renderFacts(){
+  if(!model)return;
+  var dl=$("facts");dl.textContent="";
+  var add=function(k,v){dl.appendChild(el("dt",{text:k}));dl.appendChild(el("dd",{text:v}))};
+  add("File",model.name);
+  var flag=$("bedFlag");flag.hidden=true;flag.className="flag";
+  if(model.stl){
+    var g=scaled();
+    add("Size",g.dims.map(function(d){return fmt(d,0)}).join(" x ")+" mm");
+    add("In inches",g.dims.map(function(d){return fmt(d/25.4,1)}).join(" x ")+" in");
+    add("Triangles",model.stats.tris.toLocaleString());
+    var big=Math.max.apply(null,g.dims);
+    if(big<5){flag.hidden=false;flag.textContent="This comes out smaller than 5 mm. If that looks wrong, switch the file to inches.";}
+    else if(!fitsBed(g.dims)){flag.hidden=false;flag.textContent="This is bigger than the printer can make in one piece, so it would be printed in sections and joined. The shop will confirm.";}
+  }else{
+    if(model.link)add("Link",model.link);
+    add("Size","Checked by the shop");
+  }
+}
+function renderQuote(){
+  if(!model)return;
+  var e=estimate(),bd=$("breakdown");bd.textContent="";
+  if(!e){
+    $("price").textContent="Quote by message";
+    $("priceNote").textContent=model.link
+      ?"A link can't be measured here. Send your request and the shop replies with a price. For an instant estimate, download the file and choose it above."
+      :"This file type can't be measured here. Send your request and the shop replies with a price.";
+    return;
+  }
+  var lo=e.total*(1-SHOP.spread),hi=e.total*(1+SHOP.spread);
+  $("price").textContent=money(lo)+" to "+money(hi);
+  $("priceNote").textContent="Estimate for "+e.qty+(e.qty===1?" print":" prints")+", before shipping. The shop confirms the final price.";
+  var add=function(k,v){bd.appendChild(el("dt",{text:k}));bd.appendChild(el("dd",{text:v}))};
+  add("Plastic used, each","about "+fmt(e.grams,0)+" g");
+  add("Print time, each","about "+(e.hours<1?"under 1 hour":fmt(e.hours,0)+" hours"));
+}
+
+/* ---------- 3D preview ---------- */
+var three=null;   // {renderer,scene,camera,pivot,mesh}
+var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var spinning=!reduced,dragging=false,lastX=0,raf=0;
+
+function showPreview(positions){
+  var viewer=$("viewer"),np=$("noPreview"),hint=$("viewHint");
+  var canPreview=positions&&window.THREE&&positions.length/9<=3000000;
+  if(three&&three.mesh){three.pivot.remove(three.mesh);three.mesh.geometry.dispose();three.mesh=null;render()}
+  if(!canPreview){
+    np.hidden=false;hint.hidden=true;
+    np.textContent=positions?"Preview isn't available for this file, but the estimate still works.":(model&&model.link?"No preview from a link. The shop will open the model from the address you pasted.":"No preview for this file type.");
+    if(three)three.renderer.domElement.style.visibility="hidden";
+    return;
+  }
+  try{
+    if(!three){
+      var renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+      viewer.insertBefore(renderer.domElement,viewer.firstChild);
+      var scene=new THREE.Scene();
+      scene.add(new THREE.HemisphereLight(0xffffff,0x40464c,0.85));
+      var key=new THREE.DirectionalLight(0xffffff,0.75);key.position.set(1,2,3);scene.add(key);
+      var camera=new THREE.PerspectiveCamera(35,4/3,0.1,1000);
+      var pivot=new THREE.Group();scene.add(pivot);
+      three={renderer:renderer,scene:scene,camera:camera,pivot:pivot,mesh:null};
+      bindViewer(viewer);
+    }
+    var geo=new THREE.BufferGeometry();
+    geo.setAttribute("position",new THREE.BufferAttribute(positions,3));
+    geo.computeVertexNormals();geo.center();geo.computeBoundingSphere();
+    var r=geo.boundingSphere.radius||1;
+    var mat=new THREE.MeshStandardMaterial({color:SHOP.colors[colorIdx].hex,roughness:0.65,metalness:0.05,side:THREE.DoubleSide});
+    var mesh=new THREE.Mesh(geo,mat);
+    mesh.rotation.x=-Math.PI/2;           // STL files point Z up
+    three.pivot.add(mesh);three.mesh=mesh;
+    three.pivot.rotation.y=0.6;
+    three.camera.near=r/50;three.camera.far=r*20;
+    three.camera.position.set(0,r*0.8,r*3.6);three.camera.lookAt(0,0,0);
+    three.renderer.domElement.style.visibility="visible";
+    np.hidden=true;hint.hidden=false;
+    resize();startLoop();
+  }catch(e){
+    np.hidden=false;hint.hidden=true;
+    np.textContent="Preview isn't available on this device, but the estimate still works.";
+  }
+}
+function setMeshColor(){
+  if(three&&three.mesh){three.mesh.material.color.set(SHOP.colors[colorIdx].hex);render()}
+}
+function resize(){
+  if(!three)return;
+  var v=$("viewer"),w=v.clientWidth,h=v.clientHeight;
+  if(!w||!h)return;
+  three.renderer.setSize(w,h,false);
+  three.camera.aspect=w/h;three.camera.updateProjectionMatrix();
+  render();
+}
+function render(){if(three)three.renderer.render(three.scene,three.camera)}
+function startLoop(){
+  cancelAnimationFrame(raf);
+  var tick=function(){
+    if(!three||!three.mesh)return;
+    if(spinning&&!dragging&&!document.hidden){three.pivot.rotation.y+=0.006;render()}
+    raf=requestAnimationFrame(tick);
+  };
+  render();
+  if(spinning)raf=requestAnimationFrame(tick);
+}
+function bindViewer(viewer){
+  viewer.addEventListener("pointerdown",function(e){dragging=true;lastX=e.clientX;spinning=false});
+  window.addEventListener("pointermove",function(e){
+    if(!dragging||!three)return;
+    three.pivot.rotation.y+=(e.clientX-lastX)*0.012;lastX=e.clientX;render();
+  });
+  window.addEventListener("pointerup",function(){dragging=false});
+  window.addEventListener("pointercancel",function(){dragging=false});
+  if(window.ResizeObserver)new ResizeObserver(resize).observe(viewer);
+  else window.addEventListener("resize",resize);
+}
+
+/* ---------- request ---------- */
+$("buildOrder").addEventListener("click",function(){
+  var status=$("sendStatus");status.className="status bad";
+  var name=$("cName").value.trim(),zip=$("cZip").value.trim(),link=$("cLink").value.trim(),notes=$("cNotes").value.trim();
+  if(!name){status.textContent="Add your name so the shop knows who the request is from.";$("cName").focus();return}
+  if(!/^https?:\/\/\S+\.\S+/i.test(link)){status.textContent="Add a link to your file, starting with https://, so the shop can download it.";$("cLink").focus();return}
+  var lines=["Print request for The Armory","","Name: "+name];
+  if(zip)lines.push("Ship to ZIP: "+zip);
+  lines.push("File link: "+link);
+  if(model){
+    lines.push("File: "+model.name);
+    var e=estimate();
+    lines.push("Material: "+SHOP.materials[+$("material").value].name+", "+SHOP.colors[colorIdx].name);
+    lines.push("Detail: "+SHOP.qualities[+$("quality").value].name);
+    lines.push("Strength: "+SHOP.infills[+$("infill").value].name);
+    lines.push("Finish: "+SHOP.finishes[+$("finish").value].name);
+    lines.push("Quantity: "+(e?e.qty:Math.max(1,parseInt($("qty").value,10)||1)));
+    if(e){
+      lines.push("Size: "+e.dims.map(function(d){return fmt(d,0)}).join(" x ")+" mm");
+      lines.push("Estimate shown: "+money(e.total*(1-SHOP.spread))+" to "+money(e.total*(1+SHOP.spread))+" before shipping");
+    }else lines.push("Estimate: quote by message please");
+  }else{
+    lines.push("No file was checked on the site. Quote by message please.");
+  }
+  if(notes)lines.push("","Notes: "+notes);
+  $("orderText").value=lines.join("\n");
+  $("orderOut").hidden=false;
+  if(window.armorySaveRequest)window.armorySaveRequest(lines.join("\n"),model?model.name:"Print request");
+  status.className="status";status.textContent="Your request is written. Two steps left.";
+});
+$("copyOrder").addEventListener("click",function(){
+  var b=$("copyOrder"),t=$("orderText");
+  var ok=function(){b.textContent="Copied";setTimeout(function(){b.textContent="Copy request"},1600)};
+  var manual=function(){
+    t.focus();t.select();var worked=false;
+    try{worked=document.execCommand("copy")}catch(e){}
+    if(worked)ok();else{b.textContent="Selected, now copy";setTimeout(function(){b.textContent="Copy request"},2600)}
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,manual);
+  else manual();
+});
+})();
+</script>
+<script>
+(function(){
+"use strict";
+var APP_URL=location.href.split("#")[0];
+var MSG_URL="https://www.etsy.com/messages/new?with_id=961668429&referring_id=55896558&referring_type=shop&recipient_id=961668429";
+var HELMETS=[
+  {id:"mark39",name:"Mark 39 helmet",price:120,kind:"Finished",url:"https://www.etsy.com/listing/4578781757/mark-39-helmet"},
+  {id:"symbiote",name:"Symbiote Spiderman helmet",price:70,kind:"Finished",url:"https://www.etsy.com/listing/4578793808/symbiote-spiderman-helmet"},
+  {id:"mando-deco",name:"Wearable decorated Mandalorian helmet",price:55,kind:"Painted and decorated",url:"https://www.etsy.com/listing/4454686403/decorated-mandolorian-helmet"},
+  {id:"mando-raw",name:"Mandalorian helmet, unfinished",price:55,kind:"Raw print to paint yourself",url:"https://www.etsy.com/listing/4309854211/3d-printed-mandalorian-helmet"},
+  {id:"mando-fin",name:"Mandalorian helmet, finished",price:70,kind:"Finished",url:"https://www.etsy.com/listing/4315616566/mandalorian-cosplay-helmet-with-graphite"}
+];
+function $(id){return document.getElementById(id)}
+function el(tag,attrs){
+  var n=document.createElement(tag),k;
+  if(attrs){for(k in attrs){if(k==="text")n.textContent=attrs[k];else n.setAttribute(k,attrs[k])}}
+  for(var i=2;i<arguments.length;i++){if(arguments[i])n.appendChild(arguments[i])}
+  return n;
+}
+function read(key,fallback){try{var r=localStorage.getItem(key);return r?JSON.parse(r):fallback}catch(e){return fallback}}
+function write(key,val){try{localStorage.setItem(key,JSON.stringify(val))}catch(e){}}
+function copyText(text,btn,label){
+  var ok=function(){btn.textContent="Copied";setTimeout(function(){btn.textContent=label},1500)};
+  var manual=function(){
+    var t=document.createElement("textarea");t.value=text;t.setAttribute("readonly","");
+    t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();
+    var worked=false;try{worked=document.execCommand("copy")}catch(e){}
+    document.body.removeChild(t);
+    if(worked)ok();else{btn.textContent="Copy not allowed here";setTimeout(function(){btn.textContent=label},2200)}
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(ok,manual);else manual();
+}
+
+/* views */
+var tabs=document.querySelectorAll("nav.ctabs button");
+function go(view){
+  tabs.forEach(function(t){
+    var on=t.dataset.view===view;t.setAttribute("aria-selected",on?"true":"false");
+    $("view-"+t.dataset.view).hidden=!on;
+  });
+  window.scrollTo(0,0);
+  window.dispatchEvent(new Event("resize"));
+}
+tabs.forEach(function(t){t.addEventListener("click",function(){go(t.dataset.view)})});
+document.addEventListener("click",function(e){
+  var b=e.target.closest&&e.target.closest("[data-go]");
+  if(b)go(b.dataset.go);
+});
+$("goSend").addEventListener("click",function(){$("send").scrollIntoView({block:"start"})});
+
+/* helmets */
+var saved=read("armory-saved-v1",[]);if(!Array.isArray(saved))saved=[];
+var hfilter="all";
+function renderHelmets(){
+  var list=$("helmetCards");list.textContent="";
+  var shown=HELMETS.filter(function(h){return hfilter==="all"||saved.indexOf(h.id)>=0});
+  $("helmetEmpty").hidden=shown.length>0;
+  shown.forEach(function(h){
+    var isSaved=saved.indexOf(h.id)>=0;
+    var li=el("li",{class:"card"});
+    var img=el("img",{src:"photo-"+h.id+".jpg",alt:h.name,loading:"lazy"});
+    img.addEventListener("error",function(){img.remove()});
+    li.appendChild(img);
+    li.appendChild(el("h3",{text:h.name}));
+    li.appendChild(el("div",{class:"cost stencil",text:"$"+h.price}));
+    li.appendChild(el("p",{class:"kind",text:h.kind}));
+    var row=el("div",{class:"row"});
+    row.appendChild(el("a",{class:"btn primary small",href:h.url,target:"_blank",rel:"noopener noreferrer",text:"Buy on Etsy"}));
+    row.appendChild(el("a",{class:"btn small",href:MSG_URL,target:"_blank",rel:"noopener noreferrer",text:"Ask about this"}));
+    var s=el("button",{type:"button",class:"btn small"+(isSaved?" on":""),"aria-pressed":isSaved?"true":"false",text:isSaved?"Saved":"Save"});
+    s.addEventListener("click",function(){
+      var i=saved.indexOf(h.id);if(i>=0)saved.splice(i,1);else saved.push(h.id);
+      write("armory-saved-v1",saved);renderHelmets();
+    });
+    row.appendChild(s);
+    var sh=el("button",{type:"button",class:"btn small",text:"Copy link"});
+    sh.addEventListener("click",function(){copyText(h.url,sh,"Copy link")});
+    row.appendChild(sh);
+    li.appendChild(row);list.appendChild(li);
+  });
+}
+document.querySelectorAll("[data-hfilter]").forEach(function(b){
+  b.addEventListener("click",function(){
+    hfilter=b.dataset.hfilter;
+    document.querySelectorAll("[data-hfilter]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+    renderHelmets();
+  });
+});
+
+/* requests */
+var reqs=read("armory-requests-v1",[]);if(!Array.isArray(reqs))reqs=[];
+function renderReqs(){
+  var list=$("reqCards");list.textContent="";
+  $("reqEmpty").hidden=reqs.length>0;
+  reqs.slice().reverse().forEach(function(r){
+    var li=el("li",{class:"card req"});
+    li.appendChild(el("h3",{text:String(r.title||"Print request")}));
+    li.appendChild(el("p",{class:"kind",text:"Written "+new Date(r.at).toLocaleDateString()}));
+    li.appendChild(el("pre",{text:String(r.text||"")}));
+    var row=el("div",{class:"row"});
+    var c=el("button",{type:"button",class:"btn small",text:"Copy request"});
+    c.addEventListener("click",function(){copyText(String(r.text||""),c,"Copy request")});
+    row.appendChild(c);
+    row.appendChild(el("a",{class:"btn primary small",href:MSG_URL,target:"_blank",rel:"noopener noreferrer",text:"Message shop"}));
+    var d=el("button",{type:"button",class:"btn small",text:"Delete"});
+    d.addEventListener("click",function(){
+      if(d.dataset.armed){reqs=reqs.filter(function(x){return x.id!==r.id});write("armory-requests-v1",reqs);renderReqs()}
+      else{d.dataset.armed="1";d.textContent="Tap again to delete";d.className="btn small warn";
+        setTimeout(function(){if(d.isConnected){delete d.dataset.armed;d.textContent="Delete";d.className="btn small"}},3500)}
+    });
+    row.appendChild(d);
+    li.appendChild(row);list.appendChild(li);
+  });
+}
+window.armorySaveRequest=function(text,title){
+  var last=reqs[reqs.length-1];
+  if(last&&last.text===text)return;
+  reqs.push({id:"r"+Date.now().toString(36),at:Date.now(),title:title,text:text});
+  if(reqs.length>30)reqs=reqs.slice(-30);
+  write("armory-requests-v1",reqs);renderReqs();
+};
+
+/* share */
+var share=$("shareApp");
+share.addEventListener("click",function(){
+  if(navigator.share){navigator.share({title:"The Armory",url:APP_URL}).catch(function(){copyText(APP_URL,share,"Share this app")})}
+  else copyText(APP_URL,share,"Share this app");
+});
+
+renderHelmets();renderReqs();
+})();
+</script>
+<script>
+(function(){
+  var b=document.getElementById("bugCopy");if(!b)return;
+  var t=document.getElementById("bugText"),s=document.getElementById("bugStatus");
+  b.addEventListener("click",function(){
+    var what=t.value.trim();
+    if(!what){s.textContent="Describe what went wrong first.";t.focus();return}
+    var text=["The Armory customer app, alpha 0.2","Date: "+new Date().toString(),"Device: "+navigator.userAgent,
+      "Screen: "+window.innerWidth+" x "+window.innerHeight,"","What happened: "+what].join("\n");
+    var done=function(ok){s.textContent=ok?"Report copied. Paste it in a message to the person who gave you this link.":"Copying isn't allowed here. Select the text below and copy it.";if(!ok){t.value=text;t.select()}};
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(function(){done(true)},function(){done(false)});
+    else done(false);
+  });
+})();
+</script>
+</body>
+</html>
